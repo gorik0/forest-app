@@ -2,8 +2,10 @@ package handler
 
 import (
 	"awesomeProject/api/handler/ihandler"
+	"awesomeProject/domain"
 	"awesomeProject/usecase/iservice"
 	"awesomeProject/utils/response"
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"log/slog"
 	"net/http"
@@ -41,8 +43,27 @@ func (f *ForestHandler) GetSquare(c *gin.Context) {
 }
 
 func (f *ForestHandler) PopulateWithAnimals(c *gin.Context) {
-	//TODO implement me
-	panic("implement me")
+	var animal domain.Animal
+
+	de := json.NewDecoder(c.Request.Body)
+	err := de.Decode(&animal)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, response.ErrorResponse(http.StatusBadRequest, "coudln't resolve animal name....", err.Error()))
+		return
+	}
+	ok, err := f.s.PopulateWithAnimals(&animal)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, response.ErrorResponse(http.StatusInternalServerError, "couldn't popup with animal ... ", err.Error()))
+		return
+	}
+	if ok {
+		c.JSON(http.StatusOK, response.SuccessReponse("successfully insert animal "+animal.Name))
+		return
+	} else {
+		c.JSON(http.StatusInternalServerError, response.ErrorResponse(http.StatusInternalServerError, "not ok ", err.Error()))
+		return
+	}
+
 }
 
 func NewForestHandler(f iservice.ForestService, logger *slog.Logger) ihandler.ForestHandler {

@@ -1,0 +1,2 @@
+
+ALTER TABLE forests DROP COLUMN animals RESTRICT;
