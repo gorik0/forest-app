@@ -15,8 +15,13 @@ func (f ForestRepositoryImpl) GetAnimals() ([]*domain.Animal, error) {
 }
 
 func (f ForestRepositoryImpl) GetSquare() (float64, error) {
-
-	return 123, nil
+	q := `select "square" from forests where "id"=1`
+	var square float64
+	err := f.DB.QueryRow(q).Scan(&square)
+	if err != nil {
+		return -1, err
+	}
+	return square, nil
 
 }
 

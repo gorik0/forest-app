@@ -1,0 +1,1 @@
+INSERT INTO forests(square) values(123)
