@@ -1,0 +1,33 @@
+package usecase
+
+import (
+	"awesomeProject/domain"
+	"awesomeProject/repository/interface"
+	"awesomeProject/usecase/iservice"
+)
+
+type ForestServiceImpl struct {
+	f _interface.ForestRepository
+}
+
+func (f ForestServiceImpl) GetAnimals() ([]*domain.Animal, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (f ForestServiceImpl) GetSquare() (float64, error) {
+	square, err := f.f.GetSquare()
+	if err != nil {
+		return -1, err
+	}
+	return square, nil
+}
+
+func (f ForestServiceImpl) PopulateWithAnimals(animal *domain.Animal) (bool, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func NewForestService(repo _interface.ForestRepository) iservice.ForestService {
+	return &ForestServiceImpl{f: repo}
+}
