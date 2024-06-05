@@ -22,4 +22,6 @@ func main() {
 		panic(err)
 	}
 
+	println("HElo gorik!!!")
+
 }

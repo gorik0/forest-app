@@ -3,7 +3,6 @@ package config
 import (
 	"errors"
 	"github.com/spf13/viper"
-	"strings"
 )
 
 type Config struct {
@@ -27,13 +26,6 @@ func InitConfig() error {
 		return errors.New("Fail to read in cfg!!! --->>> " + err.Error())
 	}
 
-	for _, env := range strings.Split(cfgEnv, " ") {
-		err := viper.BindEnv(env)
-		if err != nil {
-			return errors.New("error while binding cfg env ---->>>" + err.Error())
-		}
-
-	}
 	err = viper.Unmarshal(&cfg)
 	if err != nil {
 		return errors.New("Fail to unmarshall   cfg!!! --->>> " + err.Error())
